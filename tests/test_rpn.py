@@ -5,22 +5,23 @@ calculator = RPN()
 
 
 @pytest.mark.parametrize("cli, result", [
-    (r"6 3 /", 2),
-    (r"2 3 *", 6),
-    (r"2 3 +", 5),
-    (r"2 3 -", -1),
-    (r"4 3 %", 1),
-    (r"2 3 * 5 + 2 / 2 - 1 -", 2),
-    (r"2 3 3 * 5 /", 1),
-    (r"2 2 * 2 10 *", 20),
-    (r"4 4 4 * *", 64),
+    ("6 3 /", 2),
+    ("2 3 *", 6),
+    ("2 3 +", 5),
+    ("2 3 -", -1),
+    ("4 3 %", 1),
+    ("2 3 * 5 + 2 / 2 - 1 -", 2),
+    ("2 3 3 * 5 /", 1),
+    ("2 2 * 2 10 *", 20),
+    ("4 4 4 * *", 64),
+    ("123 456 +", 579)
 ])
 def test_acceptance(cli, result):
     assert calculator.calculate(cli) == result
 
 
 @pytest.mark.parametrize("cli", [
-    r"6 0 /",
+    "6 0 /",
 ])
 def test_zero_division(cli):
     with pytest.raises(ZeroDivisionError):
@@ -28,15 +29,16 @@ def test_zero_division(cli):
 
 
 @pytest.mark.parametrize("cli", [
-    r"A B /",
-    r"> < /",
-    r"TRUE FALSE /",
-    r"SELECT * FROM Users",  # Sql inject
-    r"#########",  # Multiple sequential non number value
-    r" ",  # Space
-    r" ",  # Indent
-    r"",  # Empty input
-    r"",
+    "A B /",
+    "> < /",
+    "TRUE FALSE /",
+    "SELECT * FROM Users",  # Sql inject
+    "#########",  # Multiple sequential non number value
+    " ",  # Space
+    " ",  # Indent
+    "",  # Empty input
+    "2^2 2 +",  # Squaring
+    "(2 2 *) 3 + "
 ])
 def test_destructive(cli):
     with pytest.raises(ValueError):

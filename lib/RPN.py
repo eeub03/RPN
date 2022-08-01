@@ -1,6 +1,7 @@
 import operator
 from collections import deque
-import sys
+
+
 class RPN:
     def __init__(self):
         self.operators = {"+": operator.iadd, "-" : operator.isub, "*": operator.imul, "/": operator.ifloordiv,
@@ -26,8 +27,3 @@ class RPN:
                 raise ZeroDivisionError("Cannot divide values by zero")
         return stack.pop()
 
-
-if __name__ == "__main__":
-    calculator = RPN()
-
-    print(calculator.calculate(sys.argv[1]))
